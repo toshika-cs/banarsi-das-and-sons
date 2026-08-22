@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { SectionHeading } from "@/components/ui/section-heading";
+import { revealDelay } from "@/lib/motion";
 import { categories } from "@/lib/home-content";
 
 /**
@@ -20,8 +21,13 @@ export function ShopByCategory() {
       />
 
       <ul className="flex items-start justify-between px-[30px] pt-[34px]">
-        {categories.map((category) => (
-          <li key={category.href} className="w-[140px]">
+        {categories.map((category, i) => (
+          <li
+            key={category.href}
+            data-reveal="up"
+            style={revealDelay(i)}
+            className="w-[140px]"
+          >
             <Link
               href={category.href}
               className="group flex flex-col gap-[14px]"
@@ -32,7 +38,7 @@ export function ShopByCategory() {
                   alt={category.label}
                   fill
                   sizes="140px"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                   style={{ objectPosition: category.objectPosition }}
                 />
               </div>

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { SectionHeading } from "@/components/ui/section-heading";
+import { revealDelay } from "@/lib/motion";
 import { newArrivals } from "@/lib/home-content";
 
 /**
@@ -20,10 +21,12 @@ export function NewArrivals() {
       />
 
       <div className="flex items-start justify-center gap-[14px] bg-sand-100 px-[8px] py-[34px]">
-        {newArrivals.map((product) => (
+        {newArrivals.map((product, i) => (
           <article
             key={product.href}
-            className="flex flex-1 flex-col self-stretch"
+            data-reveal="up"
+            style={revealDelay(i)}
+            className="card-lift flex flex-1 flex-col self-stretch"
           >
             <Link href={product.href} className="group flex flex-col">
               <div className="relative h-[230px] w-full overflow-hidden">
@@ -32,7 +35,7 @@ export function NewArrivals() {
                   alt={product.name}
                   fill
                   sizes="212px"
-                  className="object-cover object-center"
+                  className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                 />
               </div>
 
@@ -59,7 +62,7 @@ export function NewArrivals() {
       <div className="flex justify-center">
         <Link
           href="/new-arrivals"
-          className="w-[190px] bg-ink-900 py-[13px] text-center text-[10.5px] tracking-[1.89px] text-white uppercase transition-colors hover:bg-ink-800"
+          className="w-[190px] bg-ink-900 py-[13px] text-center text-[10.5px] tracking-[1.89px] text-white uppercase transition-[background-color,translate] duration-[400ms] ease-out hover:-translate-y-px hover:bg-ink-800"
         >
           View All Arrivals
         </Link>

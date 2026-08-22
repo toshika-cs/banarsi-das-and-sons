@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { ArrowText } from "@/components/ui/arrow-text";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { revealDelay } from "@/lib/motion";
 import { collections } from "@/lib/home-content";
 
 /**
@@ -20,10 +22,12 @@ export function CuratedForYou() {
       />
 
       <div className="flex items-start justify-center gap-[26px] pt-[34px]">
-        {collections.map((collection) => (
+        {collections.map((collection, i) => (
           <article
             key={collection.slug}
-            className="flex flex-1 flex-col self-stretch bg-sand-100"
+            data-reveal="up"
+            style={revealDelay(i)}
+            className="group card-lift flex flex-1 flex-col self-stretch bg-sand-100"
           >
             <div className="relative h-[360px] w-full overflow-hidden">
               <Image
@@ -31,7 +35,7 @@ export function CuratedForYou() {
                 alt={collection.title}
                 fill
                 sizes="360px"
-                className="object-cover object-center"
+                className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
               />
             </div>
 
@@ -51,9 +55,9 @@ export function CuratedForYou() {
 
               <Link
                 href={collection.href}
-                className="text-center text-[10px] tracking-[1.8px] whitespace-pre text-gold-500 uppercase transition-colors hover:text-gold-700"
+                className="arrow-link text-center text-[10px] tracking-[1.8px] whitespace-pre text-gold-500 uppercase transition-colors hover:text-gold-700"
               >
-                {"Explore Collection  ⟶"}
+                <ArrowText>{"Explore Collection  ⟶"}</ArrowText>
               </Link>
             </div>
           </article>

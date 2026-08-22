@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { ArrowText } from "@/components/ui/arrow-text";
 import { ourStory } from "@/lib/home-content";
 import { unverified } from "@/lib/unverified";
 import { cn } from "@/lib/utils";
@@ -22,7 +23,10 @@ import { cn } from "@/lib/utils";
 export function OurStory() {
   return (
     <section className="content-container flex gap-[60px] px-[40px] pb-[70px]">
-      <div className="mt-[84.655px] flex w-[496px] flex-col items-center">
+      <div
+        data-reveal="left"
+        className="mt-[84.655px] flex w-[496px] flex-col items-center"
+      >
         <p
           className={cn(
             "text-center text-[10px] leading-[14px] tracking-[2.2px] uppercase",
@@ -55,15 +59,18 @@ export function OurStory() {
         <Link
           href={ourStory.href}
           className={cn(
-            "mt-[24px] text-center text-[10.5px] leading-[15px] tracking-[2.31px] whitespace-pre uppercase transition-colors",
+            "arrow-link mt-[24px] text-center text-[10.5px] leading-[15px] tracking-[2.31px] whitespace-pre uppercase transition-colors",
             unverified.ourStoryCtaColor,
           )}
         >
-          {ourStory.cta}
+          <ArrowText>{ourStory.cta}</ArrowText>
         </Link>
       </div>
 
-      <div className="relative mt-[60px] h-[275.59px] w-[496px]">
+      <div
+        data-reveal="right"
+        className="relative mt-[60px] h-[275.59px] w-[496px]"
+      >
         <Image
           src={ourStory.image}
           alt={ourStory.imageAlt}

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { ArrowText } from "@/components/ui/arrow-text";
 import { site } from "@/lib/site";
 
 /**
@@ -27,7 +28,7 @@ export function Hero() {
 
       <div className="site-container relative flex h-full flex-col justify-center">
         {/* x=150 from the canvas edge, i.e. 116px past the 34px container gutter. */}
-        <div className="ml-[116px] flex w-[337px] flex-col items-start gap-[9px]">
+        <div className="hero-reveal ml-[116px] flex w-[337px] flex-col items-start gap-[9px]">
           <p className="text-[14px] leading-[20px] tracking-[3.92px] text-ink-400">
             THE ART OF
           </p>
@@ -42,9 +43,9 @@ export function Hero() {
 
           <Link
             href="/our-story"
-            className="text-[11px] leading-[16px] tracking-[2.42px] whitespace-pre text-gold-700 transition-colors hover:text-gold-500"
+            className="arrow-link text-[11px] leading-[16px] tracking-[2.42px] whitespace-pre text-gold-700 transition-colors hover:text-gold-500"
           >
-            {"DISCOVER THE STORY  ⟶"}
+            <ArrowText>{"DISCOVER THE STORY  ⟶"}</ArrowText>
           </Link>
         </div>
       </div>

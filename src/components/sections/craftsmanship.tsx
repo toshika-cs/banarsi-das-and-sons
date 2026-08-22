@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { ArrowText } from "@/components/ui/arrow-text";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { revealDelay } from "@/lib/motion";
 import { craftImages } from "@/lib/home-content";
 import { unverified } from "@/lib/unverified";
 import { cn } from "@/lib/utils";
@@ -36,8 +38,13 @@ export function Craftsmanship() {
       </div>
 
       <div className="flex pt-[31px]">
-        {craftImages.map((item) => (
-          <div key={item.alt} className="relative h-[200px] flex-1">
+        {craftImages.map((item, i) => (
+          <div
+            key={item.alt}
+            data-reveal="up"
+            style={revealDelay(i)}
+            className="relative h-[200px] flex-1"
+          >
             <Image
               src={item.image}
               alt={item.alt}
@@ -53,11 +60,11 @@ export function Craftsmanship() {
         <Link
           href="/craftsmanship"
           className={cn(
-            "text-center text-[10.5px] leading-[15px] tracking-[2.31px] whitespace-pre uppercase transition-colors",
+            "arrow-link text-center text-[10.5px] leading-[15px] tracking-[2.31px] whitespace-pre uppercase transition-colors",
             unverified.craftCtaColor,
           )}
         >
-          {"EXPLORE OUR CRAFT  ⟶"}
+          <ArrowText>{"EXPLORE OUR CRAFT  ⟶"}</ArrowText>
         </Link>
       </div>
     </section>

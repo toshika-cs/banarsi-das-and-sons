@@ -5,6 +5,7 @@ import {
   SecurePaymentsIcon,
   WorldwideShippingIcon,
 } from "@/components/ui/icons";
+import { revealDelay } from "@/lib/motion";
 import { trustBadges } from "@/lib/home-content";
 
 const BADGE_ICONS = [
@@ -24,7 +25,10 @@ export function BeginYourJourney() {
   return (
     <section className="bg-sand-300 px-[50px] py-[44px]">
       <div className="mx-auto grid h-[128px] w-full max-w-[1180px] grid-cols-[minmax(0,1.2fr)_minmax(0,1.6fr)] px-[40px]">
-        <div className="flex flex-col items-start gap-[10px] self-center">
+        <div
+          data-reveal="up"
+          className="flex flex-col items-start gap-[10px] self-center"
+        >
           <h2 className="w-full font-display text-[32px] leading-[normal] font-light text-ink-600">
             Begin Your Journey
           </h2>
@@ -35,7 +39,7 @@ export function BeginYourJourney() {
 
           <Link
             href="/collections"
-            className="bg-ink-900 px-[22px] py-[12px] text-[10.5px] tracking-[1.68px] text-white uppercase transition-colors hover:bg-ink-800"
+            className="bg-ink-900 px-[22px] py-[12px] text-[10.5px] tracking-[1.68px] text-white uppercase transition-[background-color,translate] duration-[400ms] ease-out hover:-translate-y-px hover:bg-ink-800"
           >
             Shop Collections
           </Link>
@@ -47,6 +51,8 @@ export function BeginYourJourney() {
             return (
               <li
                 key={badge.title}
+                data-reveal="up"
+                style={revealDelay(i)}
                 className="flex h-full min-w-px flex-1 flex-col items-start gap-[7.4px] border-l border-sand-400 px-[26px]"
               >
                 <span className="block size-[26px] text-gold-600">

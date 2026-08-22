@@ -40,7 +40,7 @@ export function SiteHeader() {
                 */}
                 <Link
                   href={item.href}
-                  className="-mr-[1.43px] text-[11px] tracking-[1.43px] whitespace-nowrap text-ink-750 uppercase transition-colors hover:text-gold-300"
+                  className="-mr-[1.43px] text-[11px] tracking-[1.43px] whitespace-nowrap text-ink-750 uppercase transition-colors duration-[400ms] hover:text-gold-300"
                 >
                   {item.label}
                 </Link>
@@ -76,7 +76,7 @@ function IconButton({
     <button
       type="button"
       aria-label={label}
-      className="flex size-[17px] items-center justify-center transition-colors hover:text-gold-500"
+      className="flex size-[17px] items-center justify-center transition-colors duration-[400ms] hover:text-gold-500"
     >
       {children}
     </button>

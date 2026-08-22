@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Jost } from "next/font/google";
 
+import { RevealObserver } from "@/components/ui/reveal-observer";
 import { site } from "@/lib/site";
 
 import "./globals.css";
@@ -50,14 +51,36 @@ export const viewport: Viewport = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  // suppressHydrationWarning: the head script below stamps `data-reveal-ready`
+  // on <html> before React hydrates, so the client DOM legitimately differs
+  // from the server HTML on this one element.
   return (
-    <html lang="en-IN" className={`${cormorant.variable} ${jost.variable}`}>
+    <html
+      lang="en-IN"
+      suppressHydrationWarning
+      className={`${cormorant.variable} ${jost.variable}`}
+    >
+      <head>
+        {/*
+          Runs before first paint so the scroll-reveal hidden state applies
+          without a flash. Without JavaScript the attribute is never set and
+          every section renders fully visible — the reveals are additive only.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `document.documentElement.setAttribute('data-reveal-ready','')`,
+          }}
+        />
+      </head>
       {/*
         The Figma file provides a 1280px desktop frame only. Until responsive
         frames exist, hold that width so narrow viewports scroll the real design
         rather than reflowing into a layout nobody designed.
       */}
-      <body className="min-w-[1280px] antialiased">{children}</body>
+      <body className="min-w-[1280px] antialiased">
+        {children}
+        <RevealObserver />
+      </body>
     </html>
   );
 }

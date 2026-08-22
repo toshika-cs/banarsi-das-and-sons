@@ -7,6 +7,7 @@ import {
   PinterestIcon,
   YouTubeIcon,
 } from "@/components/ui/icons";
+import { revealDelay } from "@/lib/motion";
 import { socialLinks } from "@/lib/home-content";
 import { footerNav, site } from "@/lib/site";
 import { unverified } from "@/lib/unverified";
@@ -40,7 +41,7 @@ export function SiteFooter() {
       {/* 699:3259 is 1200 x 179 — 10 taller than its tallest column, so the
           height is set rather than left to the content. */}
       <div className="flex h-[179px] w-[1200px]">
-        <div className="w-[300px]">
+        <div data-reveal="up" style={revealDelay(0)} className="w-[300px]">
           {/* 699:3261 — wordmark, 174.78 x 26 */}
           <Image
             src="/images/footer-wordmark.svg"
@@ -59,14 +60,14 @@ export function SiteFooter() {
                   <Link
                     href={social.href}
                     aria-label={social.label}
-                    className="flex size-[22px] items-center justify-center rounded-[4px] border border-sand-500 transition-colors hover:border-gold-500"
+                    className="group flex size-[22px] items-center justify-center rounded-[4px] border border-sand-500 transition-colors duration-[400ms] hover:border-gold-500"
                   >
                     {/*
                     Figma gives each glyph a 12x12 frame; the artwork inside is
                     smaller and varies per network, so the box and the leaf are
                     sized separately rather than stretching one to the other.
                   */}
-                    <span className="flex size-[12px] items-center justify-center text-ink-320">
+                    <span className="flex size-[12px] items-center justify-center text-ink-320 transition-colors duration-[400ms] group-hover:text-gold-600">
                       <Icon />
                     </span>
                   </Link>
@@ -79,20 +80,27 @@ export function SiteFooter() {
         <FooterColumn
           heading="Shop"
           links={footerNav.shop}
+          order={1}
           className="ml-[40px] w-[120px]"
         />
         <FooterColumn
           heading="Customer Care"
           links={footerNav.customerCare}
+          order={2}
           className="ml-[40px] w-[120px]"
         />
         <FooterColumn
           heading="About"
           links={footerNav.about}
+          order={3}
           className="ml-[40px] w-[120px]"
         />
 
-        <div className="ml-[40px] w-[220px]">
+        <div
+          data-reveal="up"
+          style={revealDelay(4)}
+          className="ml-[40px] w-[220px]"
+        >
           <h2
             className={cn(
               "text-[10px] leading-[14px] tracking-[1.7px] uppercase",
@@ -157,7 +165,7 @@ export function SiteFooter() {
             <li key={item.href}>
               <Link
                 href={item.href}
-                className="block text-[10.5px] leading-[15px] whitespace-nowrap text-ink-100 transition-colors hover:text-gold-500"
+                className="block text-[10.5px] leading-[15px] whitespace-nowrap text-ink-100 transition-colors duration-[400ms] hover:text-gold-500"
               >
                 {item.label}
               </Link>
@@ -172,14 +180,17 @@ export function SiteFooter() {
 function FooterColumn({
   heading,
   links,
+  order,
   className,
 }: {
   heading: string;
   links: readonly { label: string; href: string }[];
+  /** Position in the footer's stagger sequence. */
+  order: number;
   className?: string;
 }) {
   return (
-    <div className={className}>
+    <div data-reveal="up" style={revealDelay(order)} className={className}>
       <h2
         className={cn(
           "text-[10px] leading-[14px] tracking-[1.7px] uppercase",
@@ -201,7 +212,7 @@ function FooterColumn({
             <Link
               href={link.href}
               className={cn(
-                "block text-[11px] leading-[16px] transition-colors hover:text-gold-500",
+                "block text-[11px] leading-[16px] transition-colors duration-[400ms] hover:text-gold-500",
                 i === 0 && "pt-[5px]",
                 unverified.footerLinkColor,
               )}

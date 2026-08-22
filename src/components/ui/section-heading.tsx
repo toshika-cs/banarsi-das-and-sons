@@ -33,6 +33,7 @@ export function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <div
+      data-reveal="up"
       className={cn("flex flex-col items-center", className)}
       style={{ paddingTop }}
     >
