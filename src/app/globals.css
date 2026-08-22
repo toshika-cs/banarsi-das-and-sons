@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Banarsi Das & Sons — design tokens
+   Extracted from Figma: "Final Designs - Dev team" › node 699:2983
+   Source of truth for colour, type and rhythm. Prefer these tokens over
+   arbitrary values so a palette change propagates from one place.
+--------------------------------------------------------------------------- */
+
+@theme {
+  /* -- Ink: deep navy used for display type, headings and primary surfaces -- */
+  --color-ink-900: #17222f;
+  --color-ink-800: #1c2b3c;
+  --color-ink-750: #2f3b47;
+  --color-ink-740: #3a4450; /* category label */
+  --color-ink-730: #3b4450; /* product name */
+  --color-ink-700: #22303f;
+  --color-ink-600: #2c3644;
+  --color-ink-500: #323a45;
+  --color-ink-410: #3d4a57; /* hero subtitle (699:3378) */
+  --color-ink-400: #3c4a58;
+  --color-ink-320: #5c6570; /* social glyphs (from the exported SVGs) */
+  --color-ink-300: #5f6873;
+  --color-ink-200: #6b7480;
+  --color-ink-100: #7a828c;
+
+  /* -- Gold: bronze accents for links, eyebrows and highlights -- */
+  --color-gold-700: #8a7256;
+  --color-gold-600: #8a7a63;
+  --color-gold-500: #a2845c;
+  --color-gold-400: #c0a077;
+  --color-gold-300: #a99c88;
+
+  /* -- Sand: warm neutral grounds, cards and rules -- */
+  --color-sand-25: #fdfaf3;
+  --color-sand-50: #fcfaf3;
+  --color-sand-100: #f6f1e7;
+  --color-sand-150: #efe8dc; /* category circle ground */
+  --color-sand-200: #ece5d8;
+  --color-sand-300: #e9e0d2;
+  --color-sand-400: #d3c7b4;
+  --color-sand-500: #cfc4b2; /* social button border */
+
+  /* -- Stone: warm grey body copy -- */
+  --color-stone-500: #7c7466;
+
+  /* -- Cream: type set on dark ink surfaces -- */
+  --color-cream-50: #f2ece2;
+
+  /* -- Semantic aliases: use these in components -- */
+  --color-canvas: var(--color-sand-50);
+  --color-surface: var(--color-sand-100);
+  --color-foreground: var(--color-ink-800);
+  --color-muted: var(--color-ink-200);
+  --color-accent: var(--color-gold-500);
+  --color-rule: var(--color-sand-400);
+
+  /* -- Type scale -- */
+  --text-eyebrow: 0.75rem;
+  --text-display: 4.75rem;
+  --text-h1: 2.75rem;
+  --text-h2: 2.25rem;
+  --text-h3: 2rem;
+  --text-body: 0.9375rem;
+  --text-small: 0.8125rem;
+
+  --leading-display: 1.05;
+
+  /* -- Letter-spacing: the design leans heavily on wide-tracked uppercase -- */
+  --tracking-eyebrow: 0.28em;
+  --tracking-wide: 0.22em;
+  --tracking-label: 0.2em;
+  --tracking-link: 0.18em;
+  --tracking-button: 0.16em;
+
+  /* -- Layout -- */
+  --spacing-gutter: 3.125rem;
+  --container-site: 1280px;
+  --container-content: 1132px;
+}
+
+@theme inline {
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-jost), "Jost", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* The design is a light, warm palette by intent — opt out of forced dark. */
+  :root {
+    color-scheme: light;
+  }
+
+  ::selection {
+    background-color: var(--color-sand-300);
+    color: var(--color-ink-900);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold-500);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /*
+   * Shared horizontal rhythm, taken from the Figma nav gutter (34px on a fixed
+   * 1280px canvas). The design supplies no tablet/mobile frame, so this stays a
+   * fixed desktop measure rather than a responsive one.
+   */
+  .site-container {
+    margin-inline: auto;
+    width: 100%;
+    max-width: var(--container-site);
+    padding-inline: 2.125rem;
+  }
+
+  /*
+   * The homepage content column (Figma 699:3052 › children) is 1132 wide,
+   * centred in the 1280 canvas.
+   */
+  .content-container {
+    margin-inline: auto;
+    width: var(--container-content);
+  }
+}

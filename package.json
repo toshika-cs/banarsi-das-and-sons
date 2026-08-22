@@ -1,0 +1,41 @@
+{
+  "name": "banarasi-das",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm run lint && npm run format:check"
+  },
+  "dependencies": {
+    "next": "15.5.23",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.6.0",
+    "motion": "^13.1.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "@types/node": "^20.19.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "tailwindcss": "^4.3.3",
+    "@tailwindcss/postcss": "^4.3.3",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.23",
+    "eslint-config-prettier": "^10.1.8",
+    "@eslint/eslintrc": "^3",
+    "prettier": "^3.9.6",
+    "prettier-plugin-tailwindcss": "^0.8.1"
+  },
+  "overrides": {
+    "sharp": "^0.35.3"
+  }
+}
