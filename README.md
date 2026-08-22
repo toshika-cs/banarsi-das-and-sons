@@ -2,18 +2,13 @@
 
 Marketing site for Banarsi Das & Sons — handcrafted Lucknowi Chikankari.
 
-Built from the Figma design **"Final Designs - Dev team"**, section `699:2983`.
+The homepage is a faithful implementation of Figma node `699:2983` in the
+**"Final Designs - Dev team"** file.
 
 ## Stack
 
-| Layer      | Choice                                  |
-| ---------- | --------------------------------------- |
-| Framework  | Next.js 15 (App Router) + React 19      |
-| Language   | TypeScript (strict)                     |
-| Styling    | Tailwind CSS v4 with CSS-variable tokens |
-| Fonts      | Cormorant Garamond + Jost via `next/font` |
-| Animation  | Motion                                  |
-| Tooling    | ESLint 9 (flat config) + Prettier       |
+Next.js 15 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS v4 ·
+ESLint 9 + Prettier. Cormorant Garamond and Jost self-hosted via `next/font`.
 
 ## Getting started
 
@@ -22,58 +17,79 @@ npm install
 npm run dev
 ```
 
-Then open http://localhost:3000.
+| Script | Does |
+| --- | --- |
+| `dev` / `build` / `start` | Dev server, production build, serve build |
+| `typecheck` | `tsc --noEmit` |
+| `lint` / `lint:fix` | ESLint |
+| `format` / `format:check` | Prettier |
+| `check` | typecheck + lint + format — use in CI |
 
-## Scripts
+Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SITE_URL` so canonical
+and Open Graph URLs are correct. Dev falls back to `http://localhost:3000`.
 
-| Script                 | Does                                        |
-| ---------------------- | ------------------------------------------- |
-| `npm run dev`          | Dev server with hot reload                  |
-| `npm run build`        | Production build                            |
-| `npm start`            | Serve the production build                  |
-| `npm run typecheck`    | `tsc --noEmit`                              |
-| `npm run lint`         | ESLint                                      |
-| `npm run lint:fix`     | ESLint with autofix                         |
-| `npm run format`       | Prettier write                              |
-| `npm run check`        | typecheck + lint + format check (use in CI) |
-
-## Project layout
+## Layout
 
 ```
 src/
-  app/            App Router routes, layout and global stylesheet
-    globals.css   Design tokens — the styling source of truth
+  app/
+    globals.css        Design tokens — the styling source of truth
+    layout.tsx         Fonts, metadata
+    page.tsx           Composes the homepage
   components/
-    layout/       Header, footer, shell-level chrome
-    sections/     Homepage sections, one file per Figma section
-    ui/           Small reusable primitives
+    layout/            Announcement bar, header, footer
+    sections/          One file per Figma section
+    ui/                icons.tsx, section-heading.tsx
   lib/
-    site.ts       Brand strings and navigation data
-    utils.ts      cn() class merge helper
-public/images/    Exported Figma imagery
+    site.ts            Brand name, navigation
+    home-content.ts    Section copy, products, image paths
+    unverified.ts      Inferred style values — see below
+    utils.ts           cn() helper
+public/
+  images/  icons/  ornaments/
 ```
 
 ## Design tokens
 
-Colour, type and spacing live in `src/app/globals.css` under `@theme`.
-Use the token utilities (`text-ink-800`, `bg-sand-100`, `tracking-eyebrow`, …)
-rather than arbitrary hex values so a palette change stays a one-file edit.
+Colour, type and spacing live in `globals.css` under `@theme`. Use the token
+utilities (`text-ink-800`, `bg-sand-100`, …) rather than raw hex so a palette
+change stays a one-file edit.
 
-The palette comes straight from the Figma file:
+| Scale | Range | Used for |
+| --- | --- | --- |
+| `ink` | `#17222f` → `#7a828c` | Display type, headings, dark surfaces |
+| `gold` | `#8a7256` → `#c0a077` | Eyebrows, links, accents |
+| `sand` | `#fdfaf3` → `#cfc4b2` | Page ground, cards, rules |
+| `stone` | `#7c7466` | Warm grey body copy |
 
-- **Ink** `#17222f → #7a828c` — navy display type, headings, primary buttons
-- **Gold** `#8a7256 → #c0a077` — links, eyebrows, accents
-- **Sand** `#fcfaf3 → #d3c7b4` — page ground, cards, rules
-- **Stone** `#7c7466` — warm grey body copy
+Light-only by design; `color-scheme: light` stops browser dark mode inverting
+the palette.
 
-## Environment
+## Constraints
 
-Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SITE_URL` for correct
-canonical and Open Graph URLs. Local dev falls back to `http://localhost:3000`.
+**Desktop only.** Figma provides one 1280px frame and no responsive designs, so
+`body` holds `min-width: 1280px` and narrow viewports scroll rather than reflow
+into a layout nobody drew. Do not add breakpoints without designs.
+
+**Inferred values.** The Figma account hit its Starter-plan MCP call limit
+before the Our Story block (`699:3212`) and footer (`699:3258`) could be read.
+Nine colour values there are inferences, isolated in `lib/unverified.ts` with
+their node IDs and reasoning. Everything else — all geometry, every type size —
+is measured or solved against Figma. Verify and delete entries as access allows.
+
+**Placeholder content.** Product names, prices and copy are the designer's
+placeholders, and the four social links still point at `"#"`. Sections read only
+from `home-content.ts`, so swapping in a CMS or catalogue feed is contained
+there.
 
 ## Notes
 
-- `sharp` is pinned via an npm `override` to `^0.35.3` to pick up patched
-  libvips. Do not remove it without checking `npm audit`.
-- The site is intentionally light-only; `color-scheme: light` is set in
-  `globals.css` so browser dark mode does not invert the palette.
+- `sharp` is pinned via an npm `override` to `^0.35.3` for patched libvips.
+  Check `npm audit` before removing.
+- `public/images/hero.png` is retouched: a stray arrow baked into the Figma
+  export was inpainted out on request. The original is in git history, in the
+  commit that first added the file.
+- `motion` is installed but unused — the design specifies no animation. Remove
+  it if that stays true.
+- The brand is **"Banarsi Das & Sons"**. Figma's prose spells it "Banarasi" in
+  one place; the logo and footer do not. Defined once in `lib/site.ts`.
