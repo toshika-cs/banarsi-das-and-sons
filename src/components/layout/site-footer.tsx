@@ -37,7 +37,7 @@ const SOCIAL_ICONS = [
 
 export function SiteFooter() {
   return (
-    <footer className="px-[40px] pt-[40px]">
+    <footer className="min-w-[1280px] px-[40px] pt-[40px]">
       {/* 699:3259 is 1200 x 179 — 10 taller than its tallest column, so the
           height is set rather than left to the content. */}
       <div className="flex h-[179px] w-[1200px]">

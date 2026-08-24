@@ -16,12 +16,20 @@ export default function Home() {
       <SiteHeader />
       <main>
         <Hero />
-        <CuratedForYou />
-        <ShopByCategory />
-        <NewArrivals />
-        <Craftsmanship />
-        <OurStory />
-        <BeginYourJourney />
+        {/*
+          The 1280 floor has moved down again, off <main> and onto the sections
+          still awaiting a responsive design, so the Hero above can reflow while
+          each of these keeps rendering at its exact Figma width. Nothing here
+          changes at >= 1280.
+        */}
+        <div className="min-w-[1280px]">
+          <CuratedForYou />
+          <ShopByCategory />
+          <NewArrivals />
+          <Craftsmanship />
+          <OurStory />
+          <BeginYourJourney />
+        </div>
       </main>
       <SiteFooter />
     </>

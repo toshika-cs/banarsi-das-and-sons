@@ -73,11 +73,11 @@ export default function RootLayout({
         />
       </head>
       {/*
-        The Figma file provides a 1280px desktop frame only. Until responsive
-        frames exist, hold that width so narrow viewports scroll the real design
-        rather than reflowing into a layout nobody designed.
+        The 1280 floor now lives on <main> and <footer> rather than here, so the
+        header can go responsive while every section still awaiting a responsive
+        design keeps rendering at its exact Figma width.
       */}
-      <body className="min-w-[1280px] antialiased">
+      <body className="antialiased">
         {children}
         <RevealObserver />
       </body>

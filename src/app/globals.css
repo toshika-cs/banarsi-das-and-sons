@@ -127,14 +127,21 @@
 @layer components {
   /*
    * Shared horizontal rhythm, taken from the Figma nav gutter (34px on a fixed
-   * 1280px canvas). The design supplies no tablet/mobile frame, so this stays a
-   * fixed desktop measure rather than a responsive one.
+   * 1280px canvas). Held exactly from lg up, where the 1280 measure is reached.
+   * Below lg it narrows to the 20px gutter the header already uses, so the two
+   * stay on one vertical line and 34px of inset does not eat a 375px screen.
    */
   .site-container {
     margin-inline: auto;
     width: 100%;
     max-width: var(--container-site);
-    padding-inline: 2.125rem;
+    padding-inline: 1.25rem;
+  }
+
+  @media (width >= 64rem) {
+    .site-container {
+      padding-inline: 2.125rem;
+    }
   }
 
   /*
@@ -223,6 +230,24 @@
     opacity: 1;
     transform: none;
     will-change: auto;
+  }
+
+  /*
+   * Enlarges a control's touch target without touching layout: the pseudo
+   * element is absolutely positioned, so it contributes no size. Only below lg,
+   * where the pointer is a finger; the desktop geometry stays exactly as Figma
+   * drew it. 39x39 is the largest that does not overlap a neighbour across the
+   * header's 22px icon gap.
+   */
+  .tap-expand {
+    position: relative;
+  }
+  @media (width < 64rem) {
+    .tap-expand::before {
+      content: "";
+      position: absolute;
+      inset: -11px;
+    }
   }
 
   /* -- Trailing arrow on CTA links; the label itself never moves ---------- */
