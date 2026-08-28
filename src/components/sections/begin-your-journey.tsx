@@ -20,14 +20,36 @@ const BADGE_ICONS = [
  * This block was retrieved in full before the Figma call limit, so every value
  * here is exact: 50/44 padding, a 1180 inner row split 1.2fr / 1.6fr, and three
  * trust cells each opening with a left rule and 26px inset.
+ *
+ * RESPONSIVE
+ *
+ * The band stays full-bleed; only its inset narrows, from 50 + 40 of desktop
+ * padding to a single 20 gutter below lg — 90 a side would eat two thirds of a
+ * 375 screen.
+ *
+ * The 1.2fr / 1.6fr split holds from lg up and stacks below it: at md the copy
+ * column would be 267 and each trust cell 118 inside a 26 inset, i.e. 66 of
+ * usable width for an 11px line. Stacked, the copy block sits above a trust row
+ * that keeps all three cells side by side from sm up — 222 of usable width at
+ * 768 — and goes to one cell per row below sm, where three abreast would leave
+ * 96 each on a 375 screen.
+ *
+ * The two fixed heights — 128 on the row, 102.78 on the trust list — are
+ * Figma's one-line measurements and only hold while the layout is the desktop
+ * one, so they apply from lg. Below that the content sets the height, otherwise
+ * a stacked block would be clipped.
+ *
+ * Each cell keeps its left rule at every width. Stacked, three rules down the
+ * left edge read as the same bracketed list the row does, so the band needs no
+ * new device to hold together.
  */
 export function BeginYourJourney() {
   return (
-    <section className="bg-sand-300 px-[50px] py-[44px]">
-      <div className="mx-auto grid h-[128px] w-full max-w-[1180px] grid-cols-[minmax(0,1.2fr)_minmax(0,1.6fr)] px-[40px]">
+    <section className="bg-sand-300 px-5 py-[34px] lg:px-[50px] lg:py-[44px]">
+      <div className="mx-auto grid w-full max-w-[1180px] grid-cols-1 gap-y-[30px] lg:h-[128px] lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1.6fr)] lg:gap-y-0 lg:px-[40px]">
         <div
           data-reveal="up"
-          className="flex flex-col items-start gap-[10px] self-center"
+          className="flex flex-col items-start gap-[10px] lg:self-center"
         >
           <h2 className="w-full font-display text-[32px] leading-[normal] font-light text-ink-600">
             Begin Your Journey
@@ -45,7 +67,7 @@ export function BeginYourJourney() {
           </Link>
         </div>
 
-        <ul className="flex h-[102.78px] items-start justify-center self-center">
+        <ul className="grid gap-y-[24px] sm:grid-cols-3 sm:gap-y-0 lg:flex lg:h-[102.78px] lg:items-start lg:justify-center lg:self-center">
           {trustBadges.map((badge, i) => {
             const Icon = BADGE_ICONS[i]!;
             return (
@@ -53,7 +75,7 @@ export function BeginYourJourney() {
                 key={badge.title}
                 data-reveal="up"
                 style={revealDelay(i)}
-                className="flex h-full min-w-px flex-1 flex-col items-start gap-[7.4px] border-l border-sand-400 px-[26px]"
+                className="flex min-w-px flex-col items-start gap-[7.4px] border-l border-sand-400 pl-[16px] sm:pl-[20px] lg:h-full lg:flex-1 lg:px-[26px]"
               >
                 <span className="block size-[26px] text-gold-600">
                   <Icon />

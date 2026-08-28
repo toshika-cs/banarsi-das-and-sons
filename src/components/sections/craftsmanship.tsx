@@ -19,6 +19,24 @@ import { cn } from "@/lib/utils";
  * each is a pattern fill on a rect at x = 0 / 320 / 640 / 960. Figma's pattern
  * transforms scale each to fill the width and centre it vertically, which is
  * what object-cover / object-center reproduces.
+ *
+ * RESPONSIVE
+ *
+ * The heading's measure replaces the shared `.content-container` (a fixed 1132,
+ * still used by the sections without a pass) with a fluid one resolving to the
+ * same 1132 at desktop.
+ *
+ * The strip stays full-bleed at every width — that edge-to-edge band is the
+ * composition — and only changes how many tiles share the row: four across from
+ * md up, two-by-two below. Four across at 375 would be 93.75 per tile against
+ * 200 of height, and the sources are ~1.4 landscape, so all but a sliver of
+ * each photograph would be cropped away.
+ *
+ * The tiles carry the desktop 320:200 as an aspect ratio rather than a fixed
+ * 200px height, so every tile at every width crops exactly what the desktop
+ * crops — a 1.4 source into a 1.6 box, trimming the sides — instead of turning
+ * portrait as the columns narrow. Two-by-two at 375 comes to 234 of total strip
+ * height against the desktop 200, so the band does not grow much either.
  */
 
 /**
@@ -28,7 +46,7 @@ import { cn } from "@/lib/utils";
 export function Craftsmanship() {
   return (
     <section>
-      <div className="content-container">
+      <div className="mx-auto w-full max-w-[1200px] px-5 lg:px-[34px]">
         <SectionHeading
           eyebrow="The Craftsmanship"
           title="Made by Hand. Worn with Pride."
@@ -37,19 +55,19 @@ export function Craftsmanship() {
         />
       </div>
 
-      <div className="flex pt-[31px]">
+      <div className="grid grid-cols-2 pt-[31px] md:grid-cols-4">
         {craftImages.map((item, i) => (
           <div
             key={item.alt}
             data-reveal="up"
             style={revealDelay(i)}
-            className="relative h-[200px] flex-1"
+            className="relative aspect-[320/200] w-full xl:aspect-auto xl:h-[200px]"
           >
             <Image
               src={item.image}
               alt={item.alt}
               fill
-              sizes="320px"
+              sizes="(min-width: 768px) 25vw, 50vw"
               className="object-cover object-center"
             />
           </div>

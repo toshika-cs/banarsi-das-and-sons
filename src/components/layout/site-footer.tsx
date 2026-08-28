@@ -27,6 +27,47 @@ import { cn } from "@/lib/utils";
  * 3306) were supplied manually and are now wired; no assets are outstanding
  * here. The glyph fill (#5c6570) came from the artwork, so it is measured
  * rather than inferred.
+ *
+ * RESPONSIVE
+ *
+ * The row is now a grid rather than a flex line of fixed widths, because a grid
+ * can restate the same five columns as a template per breakpoint while the
+ * markup stays put. At xl the template is the Figma one literally —
+ * 300 / 120 / 120 / 120 / 220 on a 40 gap — which lays the columns out at
+ * x = 0 / 340 / 500 / 660 / 820, the exact offsets the design records.
+ *
+ * lg keeps the same five-across composition on the narrower measure: brand and
+ * newsletter hold their widths, the three link columns share what is left. At
+ * 1024 that is 113 each, still wider than the longest label ("Shipping &
+ * Delivery" sets at about 98).
+ *
+ * md gives the brand and the newsletter a full-width row each and puts the
+ * three link columns across between them — 227 each at 768. Below md it folds
+ * to two columns for the links, with the brand and the newsletter still
+ * spanning. Five columns of anything useful do not fit in 335, and a single
+ * stack would run the footer to roughly three screens.
+ *
+ * The newsletter spans rather than sharing a row because it is one of the
+ * blocks that centres below lg: in a half-width cell beside a left-aligned link
+ * column its centring read as an off-centre mistake rather than as centred. On
+ * its own row it sits on the same axis as the wordmark, the socials and the
+ * legal bar. The cost is that the three link columns no longer divide evenly at
+ * base, so About trails with an empty cell beside it.
+ *
+ * The 179 row height is the Figma measurement of the tallest column plus 10 and
+ * only describes the one-line layout, so it applies at xl alone; everywhere
+ * else the content sets the height.
+ *
+ * Below lg the wordmark, the social row, the newsletter block and the legal bar
+ * all centre; the three link columns stay left-aligned, since a column of links
+ * reads down a common left edge. lg is the cut because that is where the
+ * five-across desktop composition starts — centring a 300 and a 220 column
+ * inside that row would pull them away from the columns they sit beside.
+ *
+ * The legal bar splits below lg. Side by side it needs the copyright's 216 plus
+ * the links' 181 plus a gap, which is more than a phone has, and both halves
+ * are `whitespace-nowrap` — they would not have wrapped, they would have
+ * overflowed. Stacked, the links also wrap rather than holding one line.
  */
 const SOCIAL_ICONS = [
   InstagramIcon,
@@ -37,11 +78,15 @@ const SOCIAL_ICONS = [
 
 export function SiteFooter() {
   return (
-    <footer className="min-w-[1280px] px-[40px] pt-[40px]">
+    <footer className="mx-auto w-full max-w-[1280px] px-5 pt-[40px] lg:px-[40px]">
       {/* 699:3259 is 1200 x 179 — 10 taller than its tallest column, so the
           height is set rather than left to the content. */}
-      <div className="flex h-[179px] w-[1200px]">
-        <div data-reveal="up" style={revealDelay(0)} className="w-[300px]">
+      <div className="grid w-full max-w-[1200px] grid-cols-2 gap-x-[40px] gap-y-[34px] md:grid-cols-3 md:gap-x-[24px] lg:h-[179px] lg:grid-cols-[300px_repeat(3,minmax(0,1fr))_220px] lg:gap-y-0 xl:grid-cols-[300px_120px_120px_120px_220px] xl:gap-x-[40px]">
+        <div
+          data-reveal="up"
+          style={revealDelay(0)}
+          className="col-span-2 md:col-span-3 lg:col-span-1"
+        >
           {/* 699:3261 — wordmark, 174.78 x 26 */}
           <Image
             src="/images/footer-wordmark.svg"
@@ -49,10 +94,11 @@ export function SiteFooter() {
             width={174.78}
             height={26}
             unoptimized
+            className="mx-auto lg:mx-0"
             style={{ width: 174.78, height: 26 }}
           />
 
-          <ul className="mt-[34px] flex gap-[14px]">
+          <ul className="mt-[34px] flex justify-center gap-[14px] lg:justify-start">
             {socialLinks.map((social, i) => {
               const Icon = SOCIAL_ICONS[i]!;
               return (
@@ -77,33 +123,22 @@ export function SiteFooter() {
           </ul>
         </div>
 
-        <FooterColumn
-          heading="Shop"
-          links={footerNav.shop}
-          order={1}
-          className="ml-[40px] w-[120px]"
-        />
+        <FooterColumn heading="Shop" links={footerNav.shop} order={1} />
         <FooterColumn
           heading="Customer Care"
           links={footerNav.customerCare}
           order={2}
-          className="ml-[40px] w-[120px]"
         />
-        <FooterColumn
-          heading="About"
-          links={footerNav.about}
-          order={3}
-          className="ml-[40px] w-[120px]"
-        />
+        <FooterColumn heading="About" links={footerNav.about} order={3} />
 
         <div
           data-reveal="up"
           style={revealDelay(4)}
-          className="ml-[40px] w-[220px]"
+          className="col-span-2 md:col-span-3 lg:col-span-1"
         >
           <h2
             className={cn(
-              "text-[10px] leading-[14px] tracking-[1.7px] uppercase",
+              "text-center text-[10px] leading-[14px] tracking-[1.7px] uppercase lg:text-left",
               unverified.footerHeadingColor,
             )}
           >
@@ -112,7 +147,7 @@ export function SiteFooter() {
 
           <p
             className={cn(
-              "mt-[13px] text-[11px] leading-[20.9px]",
+              "mt-[13px] text-center text-[11px] leading-[20.9px] lg:text-left",
               unverified.footerBodyColor,
             )}
           >
@@ -126,7 +161,7 @@ export function SiteFooter() {
           */}
           <form
             className={cn(
-              "mt-[13px] flex h-[37.1px] w-[220px] border bg-white pt-[1.1px]",
+              "mx-auto mt-[13px] flex h-[37.1px] w-full max-w-[220px] border bg-white pt-[1.1px] lg:mx-0",
               unverified.newsletterBorderColor,
             )}
           >
@@ -155,12 +190,12 @@ export function SiteFooter() {
       </div>
 
       {/* 699:3362 — retrieved in full; these values are exact. */}
-      <div className="mt-[34px] flex items-start justify-between border-t border-sand-200 pt-[18px] pb-[26px]">
+      <div className="mt-[34px] flex flex-col items-center gap-[14px] border-t border-sand-200 pt-[18px] pb-[26px] lg:flex-row lg:items-start lg:justify-between lg:gap-0">
         <p className="text-[10.5px] leading-[15px] whitespace-nowrap text-ink-100">
           © 2024 {site.name}. All rights reserved.
         </p>
 
-        <ul className="flex gap-[34px]">
+        <ul className="flex flex-wrap justify-center gap-x-[20px] gap-y-[8px] lg:justify-start lg:gap-x-[34px]">
           {footerNav.legal.map((item) => (
             <li key={item.href}>
               <Link
@@ -181,16 +216,15 @@ function FooterColumn({
   heading,
   links,
   order,
-  className,
 }: {
   heading: string;
   links: readonly { label: string; href: string }[];
   /** Position in the footer's stagger sequence. */
   order: number;
-  className?: string;
 }) {
+  // Width and placement come from the grid template on the row.
   return (
-    <div data-reveal="up" style={revealDelay(order)} className={className}>
+    <div data-reveal="up" style={revealDelay(order)}>
       <h2
         className={cn(
           "text-[10px] leading-[14px] tracking-[1.7px] uppercase",
